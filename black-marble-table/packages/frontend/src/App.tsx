@@ -46,15 +46,15 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
-  { hasError: boolean }
+  { hasError: boolean; errorMessage: string }
 > {
   constructor(props: { children: React.ReactNode }) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, errorMessage: '' };
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, errorMessage: error.message || String(error) };
   }
 
   render() {
@@ -75,8 +75,11 @@ class ErrorBoundary extends React.Component<
             오류가 발생했습니다
           </h2>
           <p>페이지를 새로고침해주세요.</p>
+          <p style={{ fontSize: '0.8rem', color: '#666', maxWidth: '400px', textAlign: 'center' }}>
+            {this.state.errorMessage}
+          </p>
           <button
-            onClick={() => this.setState({ hasError: false })}
+            onClick={() => this.setState({ hasError: false, errorMessage: '' })}
             style={{
               padding: '12px 24px',
               background: 'var(--color-accent)',
