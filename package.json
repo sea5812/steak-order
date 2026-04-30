@@ -8,6 +8,7 @@
   "scripts": {
     "dev:backend": "npm run dev -w @black-marble/backend",
     "dev:frontend": "npm run dev -w @black-marble/frontend",
+    "dev": "npm run dev:backend & npm run dev:frontend",
     "build": "npm run build -w @black-marble/backend && npm run build -w @black-marble/frontend",
     "seed": "npm run seed -w @black-marble/backend",
     "test": "npm run test -w @black-marble/backend"
