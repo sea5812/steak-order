@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useTableAuth } from '../../hooks/useTableAuth';
 import styles from './TableSetupPage.module.css';
 
@@ -14,8 +14,7 @@ export default function TableSetupPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   if (isAuthenticated) {
-    navigate('/', { replace: true });
-    return null;
+    return <Navigate to="/" replace />;
   }
 
   async function handleSubmit(e: React.FormEvent) {

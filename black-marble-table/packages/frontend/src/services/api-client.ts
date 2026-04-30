@@ -29,6 +29,8 @@ async function request<T>(
   const response = await fetch(`${BASE_URL}${url}`, {
     ...options,
     headers,
+  }).catch(() => {
+    throw new Error('서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.');
   });
 
   if (response.status === 401) {
