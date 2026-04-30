@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import React from 'react';
 import QuantityControl from '../components/QuantityControl';
 import OrderStatusBadge from '../components/OrderStatusBadge';
 import ConfirmDialog from '../components/ConfirmDialog';
