@@ -1,11 +1,33 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { adminAuth, verifyStoreAccess } from '../middleware/auth.js';
 import { asyncHandler } from '../middleware/error-handler.js';
 import type { AuthenticatedRequest } from '../types/index.js';
 import { sqlite } from '../db/index.js';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const router = Router();
+
+// Multer setup for image uploads
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, '..', '..', 'uploads'),
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `menu-${Date.now()}${ext}`);
+  },
+});
+const upload = multer({
+  storage,
+  fileFilter: (_req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    cb(null, allowed.includes(file.mimetype));
+  },
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
 
 // GET /api/stores/:storeId/categories
 router.get(
@@ -97,19 +119,21 @@ router.post(
   '/stores/:storeId/menus',
   adminAuth,
   verifyStoreAccess,
+  upload.single('image'),
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const storeId = Number(req.params.storeId);
     const { name, price, description, categoryId } = req.body;
     if (!name || price === undefined || !categoryId) {
       return res.status(400).json({ message: '메뉴명, 가격, 카테고리는 필수입니다.' });
     }
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
     const maxOrder = sqlite
       .prepare('SELECT MAX(display_order) as max_order FROM menu_items WHERE store_id = ?')
       .get(storeId) as { max_order: number | null };
     const displayOrder = (maxOrder?.max_order ?? 0) + 1;
     const result = sqlite
       .prepare('INSERT INTO menu_items (store_id, category_id, name, price, description, image_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?)')
-      .run(storeId, categoryId, name, Number(price), description || null, null, displayOrder);
+      .run(storeId, categoryId, name, Number(price), description || null, imageUrl, displayOrder);
     const menu = sqlite.prepare('SELECT * FROM menu_items WHERE id = ?').get(result.lastInsertRowid) as Record<string, unknown>;
     res.status(201).json({
       id: menu.id,
@@ -129,6 +153,7 @@ router.put(
   '/stores/:storeId/menus/:id',
   adminAuth,
   verifyStoreAccess,
+  upload.single('image'),
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const storeId = Number(req.params.storeId);
     const id = Number(req.params.id);
@@ -142,6 +167,7 @@ router.put(
     if (price !== undefined) { sets.push('price = ?'); values.push(Number(price)); }
     if (description !== undefined) { sets.push('description = ?'); values.push(description || null); }
     if (categoryId !== undefined) { sets.push('category_id = ?'); values.push(categoryId); }
+    if (req.file) { sets.push('image_url = ?'); values.push(`/uploads/${req.file.filename}`); }
     if (sets.length > 0) {
       values.push(id);
       sqlite.prepare(`UPDATE menu_items SET ${sets.join(', ')} WHERE id = ?`).run(...values);
