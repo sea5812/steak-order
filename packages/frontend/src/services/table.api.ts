@@ -2,8 +2,21 @@ import { apiClient } from './api-client';
 import type { Table, TableCreateRequest, OrderHistory } from '../types';
 
 export const tableApi = {
-  getTables(storeId: string): Promise<Table[]> {
-    return apiClient.get<Table[]>(`/stores/${storeId}/tables`);
+  async getTables(storeId: string): Promise<Table[]> {
+    // Backend returns TableWithSession[], extract and map table data
+    const raw = await apiClient.get<Array<{
+      table: { id: number; store_id: number; table_number: number; created_at: string };
+      activeSession: unknown;
+      totalAmount: number;
+      orderCount: number;
+    }>>(`/stores/${storeId}/tables`);
+    return raw.map((item) => ({
+      id: item.table.id,
+      storeId: String(item.table.store_id),
+      tableNumber: item.table.table_number,
+      currentSessionId: null,
+      isActive: true,
+    }));
   },
 
   createTable(storeId: string, data: TableCreateRequest): Promise<Table> {
