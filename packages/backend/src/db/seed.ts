@@ -55,6 +55,9 @@ async function seed() {
     { name: 'Sides', displayOrder: 5 },
     { name: 'Desserts', displayOrder: 6 },
     { name: 'Beverages', displayOrder: 7 },
+    { name: 'Red Wine', displayOrder: 8 },
+    { name: 'White Wine & Rosé', displayOrder: 9 },
+    { name: 'Cocktails & Spirits', displayOrder: 10 },
   ];
 
   const categoryIds: Record<string, number> = {};
@@ -62,17 +65,17 @@ async function seed() {
     const result = db.insert(categories).values({ storeId, ...cat }).returning().get();
     categoryIds[cat.name] = result.id;
   }
-  console.log('  ✅ Categories created: 7');
+  console.log(`  ✅ Categories created: ${categoryData.length}`);
 
   // 5. Create menu items
   const menus = [
     // Appetizers
     { categoryId: categoryIds['Appetizers'], name: '점보 쉬림프 칵테일', price: 38000, description: '대형 새우를 칵테일 소스와 함께 제공', displayOrder: 1 },
-    { categoryId: categoryIds['Appetizers'], name: '울프강 크랩 케이크', price: 42000, description: '점보 럼프 크랩미트로 만든 시그니처 크랩 케이크', displayOrder: 2 },
+    { categoryId: categoryIds['Appetizers'], name: '블랙마블 크랩 케이크', price: 42000, description: '점보 럼프 크랩미트로 만든 시그니처 크랩 케이크', displayOrder: 2 },
     { categoryId: categoryIds['Appetizers'], name: '시즐링 캐나디안 베이컨', price: 19000, description: '두껍게 썬 캐나디안 베이컨을 철판에 구워 제공', displayOrder: 3 },
     { categoryId: categoryIds['Appetizers'], name: '프레시 오이스터', price: 32000, description: '신선한 생굴 하프 쉘 (6피스)', displayOrder: 4 },
     // Soup & Salad
-    { categoryId: categoryIds['Soup & Salad'], name: '울프강 샐러드', price: 32000, description: '양상추, 토마토, 양파, 크리스피 그린빈, 새우, 베이컨', displayOrder: 1 },
+    { categoryId: categoryIds['Soup & Salad'], name: '블랙마블 샐러드', price: 32000, description: '양상추, 토마토, 양파, 크리스피 그린빈, 새우, 베이컨', displayOrder: 1 },
     { categoryId: categoryIds['Soup & Salad'], name: '비프스테이크 토마토 & 어니언', price: 22000, description: '두껍게 썬 비프스테이크 토마토와 양파 (1인)', displayOrder: 2 },
     { categoryId: categoryIds['Soup & Salad'], name: '프레시 모짜렐라 & 토마토', price: 24000, description: '신선한 모짜렐라 치즈와 비프스테이크 토마토 (1인)', displayOrder: 3 },
     { categoryId: categoryIds['Soup & Salad'], name: '찹드 샐러드', price: 28000, description: '로메인, 시금치, 완두콩, 당근, 옥수수, 오이, 아보카도, 페타치즈', displayOrder: 4 },
@@ -109,6 +112,30 @@ async function seed() {
     { categoryId: categoryIds['Beverages'], name: '콜라 / 사이다', price: 5000, description: '코카콜라 또는 스프라이트', displayOrder: 4 },
     { categoryId: categoryIds['Beverages'], name: '에스프레소', price: 7000, description: '싱글 에스프레소', displayOrder: 5 },
     { categoryId: categoryIds['Beverages'], name: '아메리카노', price: 8000, description: '핫 또는 아이스 아메리카노', displayOrder: 6 },
+    // Red Wine
+    { categoryId: categoryIds['Red Wine'], name: '나파 밸리 카베르네 소비뇽', price: 89000, description: '풀바디, 블랙베리와 삼나무 향. 포터하우스·립아이와 완벽한 페어링', displayOrder: 1 },
+    { categoryId: categoryIds['Red Wine'], name: '바롤로 DOCG', price: 120000, description: '이탈리아 피에몬테산. 체리·장미·타르 향. 필레 미뇽·램 찹과 페어링 추천', displayOrder: 2 },
+    { categoryId: categoryIds['Red Wine'], name: '샤토네프 뒤 파프', price: 95000, description: '론 밸리 블렌드. 자두·허브·스파이스. 토마호크 스테이크와 훌륭한 조합', displayOrder: 3 },
+    { categoryId: categoryIds['Red Wine'], name: '피노 누아 (오레곤)', price: 78000, description: '미디엄 바디, 라즈베리·체리 향. 연어·참치 등 해산물과도 잘 어울림', displayOrder: 4 },
+    { categoryId: categoryIds['Red Wine'], name: '말벡 (멘도사)', price: 65000, description: '아르헨티나산. 자두·다크초콜릿 향. NY 설로인과 클래식 페어링', displayOrder: 5 },
+    { categoryId: categoryIds['Red Wine'], name: '키안티 클라시코 리제르바', price: 72000, description: '산지오베제 100%. 체리·가죽·허브. 크랩 케이크·파스타와 페어링', displayOrder: 6 },
+    { categoryId: categoryIds['Red Wine'], name: '하우스 레드 와인 (글라스)', price: 18000, description: '데일리 셀렉션 카베르네 소비뇽. 모든 스테이크와 무난한 페어링', displayOrder: 7 },
+    // White Wine & Rosé
+    { categoryId: categoryIds['White Wine & Rosé'], name: '샤블리 프리미에 크뤼', price: 85000, description: '부르고뉴산 샤르도네. 미네랄·시트러스. 생굴·씨배스와 최고의 페어링', displayOrder: 1 },
+    { categoryId: categoryIds['White Wine & Rosé'], name: '소비뇽 블랑 (말보로)', price: 58000, description: '뉴질랜드산. 자몽·패션프루트 향. 쉬림프 칵테일·샐러드와 페어링', displayOrder: 2 },
+    { categoryId: categoryIds['White Wine & Rosé'], name: '나파 밸리 샤르도네', price: 72000, description: '오크 숙성, 바닐라·버터 향. 로브스터 맥앤치즈·그릴드 연어와 페어링', displayOrder: 3 },
+    { categoryId: categoryIds['White Wine & Rosé'], name: '리슬링 (알자스)', price: 62000, description: '프랑스 알자스산. 꿀·복숭아·미네랄. 쉬림프 스캠피와 아름다운 조합', displayOrder: 4 },
+    { categoryId: categoryIds['White Wine & Rosé'], name: '프로방스 로제', price: 55000, description: '연한 살몬 핑크. 딸기·허브 향. 애피타이저·해산물 전반과 가볍게 페어링', displayOrder: 5 },
+    { categoryId: categoryIds['White Wine & Rosé'], name: '하우스 화이트 와인 (글라스)', price: 16000, description: '데일리 셀렉션 샤르도네. 해산물·샐러드와 무난한 페어링', displayOrder: 6 },
+    // Cocktails & Spirits
+    { categoryId: categoryIds['Cocktails & Spirits'], name: '블랙마블 올드 패션드', price: 25000, description: '버번 위스키·앙고스투라 비터스·오렌지 필. 스테이크 전 식전주로 추천', displayOrder: 1 },
+    { categoryId: categoryIds['Cocktails & Spirits'], name: '클래식 마티니', price: 23000, description: '진 또는 보드카, 드라이 베르무트. 생굴·쉬림프 칵테일과 클래식 페어링', displayOrder: 2 },
+    { categoryId: categoryIds['Cocktails & Spirits'], name: '맨해튼', price: 25000, description: '라이 위스키·스위트 베르무트·비터스. 프라임 스테이크와 깊은 풍미 매칭', displayOrder: 3 },
+    { categoryId: categoryIds['Cocktails & Spirits'], name: '네그로니', price: 23000, description: '진·캄파리·스위트 베르무트. 시즐링 베이컨·크랩 케이크와 페어링', displayOrder: 4 },
+    { categoryId: categoryIds['Cocktails & Spirits'], name: '싱글몰트 위스키 (글렌피딕 12년)', price: 22000, description: '스페이사이드 싱글몰트. 배·꿀 향. 디저트 또는 식후주로 추천', displayOrder: 5 },
+    { categoryId: categoryIds['Cocktails & Spirits'], name: '버번 위스키 (메이커스 마크)', price: 18000, description: '캐러멜·바닐라 향. 스테이크와 함께 또는 식후 니트로 추천', displayOrder: 6 },
+    { categoryId: categoryIds['Cocktails & Spirits'], name: '에스프레소 마티니', price: 23000, description: '보드카·에스프레소·칼루아. 초콜릿 무스 케이크와 디저트 페어링', displayOrder: 7 },
+    { categoryId: categoryIds['Cocktails & Spirits'], name: '모히토', price: 20000, description: '럼·라임·민트·소다. 해산물·샐러드와 상큼한 페어링', displayOrder: 8 },
   ];
 
   for (const menu of menus) {
