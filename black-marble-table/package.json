@@ -1,0 +1,14 @@
+{
+  "name": "black-marble-table",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Black Marble Table - 테이블오더 서비스",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=packages/backend",
+    "build:backend": "npm run build --workspace=packages/backend",
+    "test:backend": "npm run test --workspace=packages/backend"
+  }
+}

@@ -26,11 +26,11 @@
 - [x] INCEPTION - User Stories
 - [x] INCEPTION - Workflow Planning
 - [x] INCEPTION - Application Design
-- [x] INCEPTION - Units Generation (COMPLETED)
-- [x] CONSTRUCTION - Functional Design - Unit 4 Frontend (COMPLETED)
-- [x] CONSTRUCTION - NFR Requirements - Unit 4 Frontend (COMPLETED)
-- [x] CONSTRUCTION - NFR Design - Unit 4 Frontend (COMPLETED)
-- [x] CONSTRUCTION - Code Generation - Unit 4 Frontend (COMPLETED)
-- [x] CONSTRUCTION - Build and Test (COMPLETED)
-
-## Current Status: ALL STAGES COMPLETE
+- [ ] INCEPTION - Units Generation (EXECUTE - IN PROGRESS)
+- [ ] INCEPTION - Units Generation (EXECUTE)
+- [x] CONSTRUCTION - Functional Design (Unit 2: Menu Domain - COMPLETED)
+- [x] CONSTRUCTION - NFR Requirements (Unit 2: Menu Domain - COMPLETED)
+- [x] CONSTRUCTION - NFR Design (Unit 2: Menu Domain - COMPLETED)
+- [ ] CONSTRUCTION - Infrastructure Design (SKIP - 로컬/온프레미스)
+- [x] CONSTRUCTION - Code Generation (Unit 2: Menu Domain - COMPLETED)
+- [x] CONSTRUCTION - Build and Test (Unit 2: Menu Domain - COMPLETED)

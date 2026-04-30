@@ -1,77 +1,95 @@
-# Unit Test Execution - Unit 3: Order Domain
+# Unit Test Instructions - Unit 2: Menu Domain
 
-## Test Framework
-- **Framework**: Vitest
-- **DB**: 인메모리 SQLite (better-sqlite3 `:memory:`)
-- **Mock**: vitest vi.fn(), vi.mock()
+## 테스트 실행
 
-## Run Unit Tests
-
-### 1. Execute All Unit Tests
+### 전체 테스트 실행
 
 ```bash
-cd packages/backend
-npx vitest run
+cd black-marble-table
+npm run test:backend
 ```
 
-또는 특정 테스트만:
+### 개별 테스트 파일 실행
 
 ```bash
-# 유틸리티 테스트
-npx vitest run tests/utils/
+cd black-marble-table/packages/backend
 
-# SSE 테스트
-npx vitest run tests/sse/
+# Repository Layer 테스트
+npx vitest run tests/repositories/menu.repository.test.ts
 
-# Repository 테스트
-npx vitest run tests/repositories/
+# Service Layer 테스트
+npx vitest run tests/services/menu.service.test.ts
 
-# Service 테스트
-npx vitest run tests/services/
-
-# Controller 테스트
-npx vitest run tests/controllers/
+# Controller Layer 테스트
+npx vitest run tests/controllers/menu.controller.test.ts
 ```
 
-### 2. Review Test Results
+### Watch 모드 (개발 중)
 
-**Expected**: 전체 테스트 통과, 0 failures
-
-| 테스트 파일 | 예상 테스트 수 | 설명 |
-|---|---|---|
-| `tests/utils/retry.test.ts` | 4 | withRetry 재시도 로직 |
-| `tests/utils/validators.test.ts` | 10+ | 입력 검증 헬퍼 |
-| `tests/utils/order-number.test.ts` | 6 | 주문번호 생성 |
-| `tests/sse/sse-manager.test.ts` | 10+ | SSE 연결 관리, heartbeat |
-| `tests/services/sse.service.test.ts` | 8 | SSE 이벤트 위임 |
-| `tests/repositories/order.repository.test.ts` | 8+ | Order CRUD (인메모리 DB) |
-| `tests/repositories/table.repository.test.ts` | 8+ | Table CRUD (인메모리 DB) |
-| `tests/services/order.service.test.ts` | 8+ | 주문 비즈니스 로직 |
-| `tests/services/table.service.test.ts` | 8+ | 테이블 비즈니스 로직 |
-| `tests/controllers/order.controller.test.ts` | 6+ | 주문 HTTP 핸들러 |
-| `tests/controllers/table.controller.test.ts` | 4+ | 테이블 HTTP 핸들러 |
-
-### 3. Vitest 설정
-
-`packages/backend/vitest.config.ts` (없으면 생성):
-
-```typescript
-import { defineConfig } from 'vitest/config';
-
-export default defineConfig({
-  test: {
-    globals: true,
-    environment: 'node',
-    include: ['tests/**/*.test.ts'],
-  },
-});
+```bash
+cd black-marble-table/packages/backend
+npx vitest
 ```
 
-### 4. Fix Failing Tests
+---
 
-테스트 실패 시:
-1. 에러 메시지에서 실패 원인 확인
-2. Repository 테스트: 인메모리 DB 스키마가 실제 스키마와 일치하는지 확인
-3. Service 테스트: mock 객체의 반환값이 올바른지 확인
-4. Controller 테스트: req/res mock 구조가 Express 인터페이스와 일치하는지 확인
-5. 수정 후 `npx vitest run` 재실행
+## 테스트 구조
+
+### Repository Layer (`tests/repositories/menu.repository.test.ts`)
+
+| 테스트 그룹 | 테스트 케이스 |
+|---|---|
+| findCategoriesByStore | 매장 ID로 카테고리 목록 조회 |
+| findCategoryById | 카테고리 ID로 단일 조회, 미존재 시 undefined |
+| createCategory | 새 카테고리 생성 및 반환 |
+| countMenusByCategory | 카테고리별 메뉴 수 반환 |
+| findMenusByStore | 매장 전체 메뉴 조회 |
+| deleteMenu | 메뉴 삭제 |
+
+### Service Layer (`tests/services/menu.service.test.ts`)
+
+| 테스트 그룹 | 테스트 케이스 |
+|---|---|
+| getCategories | 매장 카테고리 목록 반환 |
+| createCategory | 정상 생성, 빈 이름 에러, 50자 초과 에러, 중복명 에러 |
+| updateCategory | 정상 수정, 미존재 에러, 다른 매장 에러 |
+| deleteCategory | 정상 삭제, 메뉴 존재 시 에러 |
+| reorderCategories | 정상 순서 변경, 빈 배열 에러, 유효하지 않은 ID 에러 |
+| getMenusByStore | 전체 조회, 카테고리 필터링 |
+| getMenuById | 정상 조회, 미존재 에러 |
+| createMenu | 정상 생성, 유효하지 않은 카테고리 에러, 음수 가격 에러, 빈 이름 에러 |
+| deleteMenu | 정상 삭제, 미존재 에러 |
+| reorderMenus | 정상 순서 변경, 빈 배열 에러 |
+
+### Controller Layer (`tests/controllers/menu.controller.test.ts`)
+
+| 테스트 그룹 | 테스트 케이스 |
+|---|---|
+| GET /categories | 200 목록 반환, 401 인증 없음 |
+| POST /categories | 201 생성, 403 Table 역할 거부, 409 중복명 |
+| DELETE /categories/:id | 204 삭제, 409 메뉴 존재 |
+| GET /menus | 200 목록 반환, categoryId 필터링 |
+| GET /menus/:id | 200 상세 반환, 404 미존재 |
+| POST /menus | 201 이미지 포함 생성, 400 이미지 없음 |
+| DELETE /menus/:id | 204 삭제 |
+| PUT /menus/reorder | 204 순서 변경 |
+
+---
+
+## 테스트 커버리지
+
+```bash
+cd black-marble-table/packages/backend
+npx vitest run --coverage
+```
+
+### 커버리지 대상
+- `src/repositories/menu.repository.ts`
+- `src/services/menu.service.ts`
+- `src/controllers/menu.controller.ts`
+- `src/errors/index.ts`
+- `src/middleware/error-handler.ts`
+
+### 제외 대상
+- `src/index.ts` (서버 엔트리포인트)
+- `src/db/index.ts` (DB 연결)

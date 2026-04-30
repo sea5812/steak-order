@@ -1,95 +1,71 @@
-# Build and Test Summary - Unit 4: Frontend
+# Build and Test Summary - Unit 2: Menu Domain
 
-## Build Status
+## 개요
 
-| 항목 | 결과 |
+| 항목 | 내용 |
 |---|---|
-| **TypeScript 컴파일** | ✅ 성공 (0 errors) |
-| **Vite 프로덕션 빌드** | ✅ 성공 (352ms) |
-| **빌드 도구** | Vite 5.4.21 |
-| **모듈 변환** | 80 modules |
-
-### 번들 사이즈
-| 번들 | 크기 (gzip) |
-|---|---|
-| 메인 번들 (index.js) | 56.61 KB |
-| DashboardPage | 3.44 KB |
-| TableManagePage | 2.88 KB |
-| MenuManagePage | 2.61 KB |
-| OrderListPage | 2.14 KB |
-| 기타 페이지 | 각 1~2 KB |
-| **총 JS** | ~80 KB (gzip) |
-| **총 CSS** | ~10 KB (gzip) |
-
-> NFR-FE-04 목표 (200KB 이하) 대비 **80KB** — 목표 달성 ✅
+| **Unit** | Unit 2 - Menu Domain |
+| **Stories** | US-C02 (메뉴 조회), US-A05 (메뉴 CRUD) |
+| **테스트 프레임워크** | Vitest |
+| **API 테스트** | supertest |
 
 ---
 
-## Test Execution Summary
-
-### Unit Tests
-| 항목 | 결과 |
-|---|---|
-| **총 테스트** | 35 |
-| **통과** | 35 |
-| **실패** | 0 |
-| **테스트 파일** | 4 |
-| **실행 시간** | 590ms |
-| **상태** | ✅ Pass |
-
-### 테스트 상세
-| 테스트 파일 | 테스트 수 | 상태 |
-|---|---|---|
-| useOrderList.test.ts | 10 | ✅ Pass |
-| components.test.tsx | 16 | ✅ Pass |
-| api-client.test.ts | 5 | ✅ Pass |
-| useAuth.test.tsx | 4 | ✅ Pass |
-
-### Integration Tests
-- **상태**: N/A — 프론트엔드 단독 유닛, 백엔드 연동은 전체 통합 시 테스트
-
-### Performance Tests
-- **상태**: N/A — 프론트엔드 성능은 빌드 사이즈로 간접 검증 (80KB < 200KB 목표)
-
-### E2E Tests
-- **상태**: N/A — MVP 범위 외
-
----
-
-## Overall Status
-
-| 항목 | 상태 |
-|---|---|
-| **TypeScript 컴파일** | ✅ Success |
-| **Vite 빌드** | ✅ Success |
-| **단위 테스트 (35개)** | ✅ All Pass |
-| **번들 사이즈** | ✅ 80KB (목표 200KB 이하) |
-| **코드 스플리팅** | ✅ 페이지별 lazy loading 적용 |
-| **Story 커버리지** | ✅ 10/10 (100%) |
-
-## 실행 명령어
+## 빌드 명령어 요약
 
 ```bash
-# 의존성 설치
-cd black-marble-table/packages/frontend
-npm install
-
-# 개발 서버
-npm run dev
-# → http://localhost:5173
-
-# 프로덕션 빌드
-npm run build
-
-# 테스트
-npm test
-
-# 타입 체크
-npx tsc --noEmit
+cd black-marble-table
+npm install                    # 의존성 설치
+npm run build:backend          # TypeScript 컴파일
+npm run dev:backend            # 개발 서버 실행
+npm run test:backend           # 단위 테스트 실행
 ```
 
-## 접근 경로
-- 고객 메뉴: `http://localhost:5173/` (태블릿 설정 후)
-- 태블릿 설정: `http://localhost:5173/setup`
-- 관리자 로그인: `http://localhost:5173/admin/login`
-- 관리자 대시보드: `http://localhost:5173/admin/dashboard`
+---
+
+## 테스트 현황
+
+| 레이어 | 파일 | 테스트 수 | 커버리지 대상 |
+|---|---|---|---|
+| Repository | menu.repository.test.ts | 6 | menu.repository.ts |
+| Service | menu.service.test.ts | 18 | menu.service.ts |
+| Controller | menu.controller.test.ts | 12 | menu.controller.ts |
+| **합계** | **3 파일** | **36 테스트** | |
+
+---
+
+## 검증 체크리스트
+
+### 빌드
+- [ ] `npm install` 성공
+- [ ] `npm run build:backend` 컴파일 에러 없음
+- [ ] 서버 시작 (`npm run dev:backend`) 정상
+
+### 단위 테스트
+- [ ] Repository Layer 테스트 통과
+- [ ] Service Layer 테스트 통과
+- [ ] Controller Layer 테스트 통과
+
+### 통합 테스트 (수동)
+- [ ] 카테고리 CRUD 플로우 정상
+- [ ] 메뉴 CRUD 플로우 (이미지 업로드 포함) 정상
+- [ ] 순서 변경 (reorder) 정상
+- [ ] 인증/인가 검증 정상
+- [ ] 에러 케이스 적절한 응답
+
+---
+
+## 알려진 제한사항
+
+1. **인증 미들웨어**: Unit 1 (Foundation)의 실제 JWT 검증이 아닌 stub 사용 중. Unit 1 완성 후 교체 필요.
+2. **DB 마이그레이션**: Unit 1에서 Drizzle 마이그레이션을 관리. 현재는 수동 테이블 생성 필요.
+3. **Node.js 환경**: 현재 개발 환경에 Node.js가 설치되어 있지 않아 빌드/테스트 실행 미검증. 사용자 환경에서 실행 필요.
+
+---
+
+## 다음 단계
+
+Unit 2 개발이 완료되었습니다. 다음 작업:
+1. 로컬 환경에서 `npm install` 및 `npm run test:backend` 실행
+2. Unit 1 (Foundation) 완성 후 인증 미들웨어 stub 교체
+3. Unit 4 (Frontend)에서 메뉴 API 연동
