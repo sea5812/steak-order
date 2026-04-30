@@ -26,11 +26,10 @@
 - [x] INCEPTION - User Stories
 - [x] INCEPTION - Workflow Planning
 - [x] INCEPTION - Application Design
-- [ ] INCEPTION - Units Generation (EXECUTE - IN PROGRESS)
-- [ ] INCEPTION - Units Generation (EXECUTE)
-- [ ] CONSTRUCTION - Functional Design (EXECUTE, per-unit)
-- [ ] CONSTRUCTION - NFR Requirements (EXECUTE, per-unit)
-- [ ] CONSTRUCTION - NFR Design (EXECUTE, per-unit)
-- [ ] CONSTRUCTION - Infrastructure Design (SKIP - 로컬/온프레미스)
+- [x] INCEPTION - Units Generation (COMPLETED)
+- [x] CONSTRUCTION - Functional Design - Unit 4 Frontend (COMPLETED)
+- [x] CONSTRUCTION - NFR Requirements - Unit 4 Frontend (COMPLETED)
+- [x] CONSTRUCTION - NFR Design - Unit 4 Frontend (COMPLETED)
+- [ ] CONSTRUCTION - Code Generation - Unit 4 Frontend (IN PROGRESS)
 - [ ] CONSTRUCTION - Code Generation (EXECUTE, per-unit)
 - [ ] CONSTRUCTION - Build and Test (EXECUTE)

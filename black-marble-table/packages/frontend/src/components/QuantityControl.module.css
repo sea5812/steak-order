@@ -1,0 +1,35 @@
+.control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: background var(--transition-fast);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--color-border-hover);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.value {
+  min-width: 40px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+}
