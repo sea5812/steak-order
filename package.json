@@ -1,0 +1,15 @@
+{
+  "name": "black-marble-table",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev -w @black-marble/backend",
+    "dev:frontend": "npm run dev -w @black-marble/frontend",
+    "build": "npm run build -w @black-marble/backend && npm run build -w @black-marble/frontend",
+    "seed": "npm run seed -w @black-marble/backend",
+    "test": "npm run test -w @black-marble/backend"
+  }
+}
