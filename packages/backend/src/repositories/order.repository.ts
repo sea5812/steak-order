@@ -1,4 +1,4 @@
-// OrderRepository - Data access layer for Order, OrderItem, OrderHistory
+// OrderRepository - Aligned with Unit 1 schema
 
 import type Database from 'better-sqlite3';
 import type {
@@ -14,156 +14,106 @@ import type {
 export class OrderRepository {
   constructor(private db: Database.Database) {}
 
-  // ============================================================
-  // Order CRUD
-  // ============================================================
+  // === Order CRUD ===
 
   create(data: NewOrder): Order {
     const stmt = this.db.prepare(`
-      INSERT INTO orders (order_number, store_id, table_id, session_id, total_amount, status, ordered_at, updated_at)
-      VALUES (@order_number, @store_id, @table_id, @session_id, @total_amount, @status, @ordered_at, @updated_at)
+      INSERT INTO orders (store_id, table_id, session_id, total_amount, status, ordered_at)
+      VALUES (@store_id, @table_id, @session_id, @total_amount, @status, @ordered_at)
     `);
     const result = stmt.run(data);
     return this.findById(result.lastInsertRowid as number)!;
   }
 
   findById(orderId: number): Order | undefined {
-    const stmt = this.db.prepare(`SELECT * FROM orders WHERE order_id = ?`);
-    return stmt.get(orderId) as Order | undefined;
+    return this.db.prepare(`SELECT * FROM orders WHERE id = ?`).get(orderId) as Order | undefined;
   }
 
   findByIdAndStore(orderId: number, storeId: number): Order | undefined {
-    const stmt = this.db.prepare(`SELECT * FROM orders WHERE order_id = ? AND store_id = ?`);
-    return stmt.get(orderId, storeId) as Order | undefined;
+    return this.db.prepare(`SELECT * FROM orders WHERE id = ? AND store_id = ?`).get(orderId, storeId) as Order | undefined;
   }
 
   findBySession(storeId: number, sessionId: number): Order[] {
-    const stmt = this.db.prepare(`
-      SELECT * FROM orders
-      WHERE store_id = ? AND session_id = ?
-      ORDER BY ordered_at ASC
-    `);
-    return stmt.all(storeId, sessionId) as Order[];
+    return this.db.prepare(`SELECT * FROM orders WHERE store_id = ? AND session_id = ? ORDER BY ordered_at ASC`).all(storeId, sessionId) as Order[];
   }
 
   findByStoreAndDate(storeId: number, datePrefix: string): Order[] {
-    const stmt = this.db.prepare(`
-      SELECT * FROM orders
-      WHERE store_id = ? AND ordered_at LIKE ?
-      ORDER BY ordered_at DESC
-    `);
-    return stmt.all(storeId, `${datePrefix}%`) as Order[];
+    return this.db.prepare(`SELECT * FROM orders WHERE store_id = ? AND ordered_at LIKE ? ORDER BY ordered_at DESC`).all(storeId, `${datePrefix}%`) as Order[];
+  }
+
+  findByStore(storeId: number): Order[] {
+    return this.db.prepare(`SELECT * FROM orders WHERE store_id = ? ORDER BY ordered_at DESC`).all(storeId) as Order[];
   }
 
   findBySessionIds(storeId: number, sessionIds: number[]): Order[] {
     if (sessionIds.length === 0) return [];
     const placeholders = sessionIds.map(() => '?').join(',');
-    const stmt = this.db.prepare(`
-      SELECT * FROM orders
-      WHERE store_id = ? AND session_id IN (${placeholders})
-      ORDER BY ordered_at ASC
-    `);
-    return stmt.all(storeId, ...sessionIds) as Order[];
+    return this.db.prepare(`SELECT * FROM orders WHERE store_id = ? AND session_id IN (${placeholders}) ORDER BY ordered_at ASC`).all(storeId, ...sessionIds) as Order[];
   }
 
-  updateStatus(orderId: number, status: string, updatedAt: string): Order | undefined {
-    const stmt = this.db.prepare(`
-      UPDATE orders SET status = ?, updated_at = ? WHERE order_id = ?
-    `);
-    stmt.run(status, updatedAt, orderId);
+  updateStatus(orderId: number, status: string): Order | undefined {
+    this.db.prepare(`UPDATE orders SET status = ? WHERE id = ?`).run(status, orderId);
     return this.findById(orderId);
   }
 
   deleteById(orderId: number): void {
     this.db.prepare(`DELETE FROM order_items WHERE order_id = ?`).run(orderId);
-    this.db.prepare(`DELETE FROM orders WHERE order_id = ?`).run(orderId);
+    this.db.prepare(`DELETE FROM orders WHERE id = ?`).run(orderId);
   }
 
   deleteBySessionId(sessionId: number): void {
-    const orders = this.db.prepare(`SELECT order_id FROM orders WHERE session_id = ?`).all(sessionId) as { order_id: number }[];
+    const orders = this.db.prepare(`SELECT id FROM orders WHERE session_id = ?`).all(sessionId) as { id: number }[];
     for (const order of orders) {
-      this.db.prepare(`DELETE FROM order_items WHERE order_id = ?`).run(order.order_id);
+      this.db.prepare(`DELETE FROM order_items WHERE order_id = ?`).run(order.id);
     }
     this.db.prepare(`DELETE FROM orders WHERE session_id = ?`).run(sessionId);
   }
 
-  // ============================================================
-  // OrderItem
-  // ============================================================
+  // === OrderItem ===
 
   createItems(items: NewOrderItem[]): OrderItem[] {
     const stmt = this.db.prepare(`
-      INSERT INTO order_items (order_id, menu_item_id, menu_name, quantity, unit_price, subtotal)
-      VALUES (@order_id, @menu_item_id, @menu_name, @quantity, @unit_price, @subtotal)
+      INSERT INTO order_items (order_id, menu_item_id, menu_name, quantity, unit_price)
+      VALUES (@order_id, @menu_item_id, @menu_name, @quantity, @unit_price)
     `);
     const results: OrderItem[] = [];
     for (const item of items) {
       const result = stmt.run(item);
-      const inserted = this.db.prepare(`SELECT * FROM order_items WHERE order_item_id = ?`)
-        .get(result.lastInsertRowid as number) as OrderItem;
+      const inserted = this.db.prepare(`SELECT * FROM order_items WHERE id = ?`).get(result.lastInsertRowid as number) as OrderItem;
       results.push(inserted);
     }
     return results;
   }
 
   findItemsByOrderId(orderId: number): OrderItem[] {
-    const stmt = this.db.prepare(`SELECT * FROM order_items WHERE order_id = ?`);
-    return stmt.all(orderId) as OrderItem[];
+    return this.db.prepare(`SELECT * FROM order_items WHERE order_id = ?`).all(orderId) as OrderItem[];
   }
 
   findItemsByOrderIds(orderIds: number[]): OrderItem[] {
     if (orderIds.length === 0) return [];
     const placeholders = orderIds.map(() => '?').join(',');
-    const stmt = this.db.prepare(`SELECT * FROM order_items WHERE order_id IN (${placeholders})`);
-    return stmt.all(...orderIds) as OrderItem[];
+    return this.db.prepare(`SELECT * FROM order_items WHERE order_id IN (${placeholders})`).all(...orderIds) as OrderItem[];
   }
 
-  // ============================================================
-  // OrderHistory
-  // ============================================================
+  // === OrderHistory ===
 
   createHistory(data: NewOrderHistory): OrderHistory {
     const stmt = this.db.prepare(`
-      INSERT INTO order_history (original_order_id, order_number, store_id, table_id, session_id, total_amount, status, ordered_at, completed_at, items_json)
-      VALUES (@original_order_id, @order_number, @store_id, @table_id, @session_id, @total_amount, @status, @ordered_at, @completed_at, @items_json)
+      INSERT INTO order_history (store_id, table_id, session_id, order_data, completed_at)
+      VALUES (@store_id, @table_id, @session_id, @order_data, @completed_at)
     `);
     const result = stmt.run(data);
-    return this.db.prepare(`SELECT * FROM order_history WHERE history_id = ?`)
-      .get(result.lastInsertRowid as number) as OrderHistory;
+    return this.db.prepare(`SELECT * FROM order_history WHERE id = ?`).get(result.lastInsertRowid as number) as OrderHistory;
   }
 
-  findHistoryByTable(
-    storeId: number,
-    tableId: number,
-    startDate: string,
-    endDate: string
-  ): OrderHistory[] {
-    const stmt = this.db.prepare(`
-      SELECT * FROM order_history
-      WHERE store_id = ? AND table_id = ? AND completed_at >= ? AND completed_at <= ?
-      ORDER BY completed_at DESC
-    `);
-    return stmt.all(storeId, tableId, startDate, endDate) as OrderHistory[];
+  findHistoryByTable(storeId: number, tableId: number, startDate?: string, endDate?: string): OrderHistory[] {
+    if (startDate && endDate) {
+      return this.db.prepare(`SELECT * FROM order_history WHERE store_id = ? AND table_id = ? AND completed_at >= ? AND completed_at <= ? ORDER BY completed_at DESC`).all(storeId, tableId, startDate, endDate) as OrderHistory[];
+    }
+    return this.db.prepare(`SELECT * FROM order_history WHERE store_id = ? AND table_id = ? ORDER BY completed_at DESC`).all(storeId, tableId) as OrderHistory[];
   }
 
-  // ============================================================
-  // Order Number
-  // ============================================================
-
-  getLastOrderNumberForDate(storeId: number, datePrefix: string): string | undefined {
-    const stmt = this.db.prepare(`
-      SELECT order_number FROM orders
-      WHERE store_id = ? AND order_number LIKE ?
-      ORDER BY order_number DESC
-      LIMIT 1
-    `);
-    const row = stmt.get(storeId, `${datePrefix}-%`) as { order_number: string } | undefined;
-    return row?.order_number;
-  }
-
-  // ============================================================
-  // Helpers
-  // ============================================================
+  // === Helpers ===
 
   getOrderWithItems(orderId: number): OrderWithItems | undefined {
     const order = this.findById(orderId);
@@ -173,7 +123,7 @@ export class OrderRepository {
   }
 
   getOrdersWithItems(orders: Order[]): OrderWithItems[] {
-    const orderIds = orders.map((o) => o.order_id);
+    const orderIds = orders.map((o) => o.id);
     const allItems = this.findItemsByOrderIds(orderIds);
     const itemsByOrderId = new Map<number, OrderItem[]>();
     for (const item of allItems) {
@@ -184,7 +134,7 @@ export class OrderRepository {
     }
     return orders.map((order) => ({
       order,
-      items: itemsByOrderId.get(order.order_id) || [],
+      items: itemsByOrderId.get(order.id) || [],
     }));
   }
 }

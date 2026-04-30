@@ -1,16 +1,10 @@
 // Unit 3: Order Domain - Type Definitions
-
-// ============================================================
-// Order Status
-// ============================================================
+// Aligned with Unit 1 schema (packages/backend/src/db/schema.ts)
 
 export type OrderStatus = 'pending' | 'preparing' | 'completed';
-
 export const ORDER_STATUSES: OrderStatus[] = ['pending', 'preparing', 'completed'];
 
-// ============================================================
-// Input Types
-// ============================================================
+// === Input Types ===
 
 export interface CreateOrderItemInput {
   menu_item_id: number;
@@ -35,64 +29,54 @@ export interface UpdateTableInput {
   password?: string;
 }
 
-// ============================================================
-// Entity Types (mirrors Drizzle schema from Unit 1)
-// ============================================================
+// === Entity Types (matches actual DB columns) ===
 
 export interface Order {
-  order_id: number;
-  order_number: string;
+  id: number;
   store_id: number;
   table_id: number;
   session_id: number;
   total_amount: number;
   status: OrderStatus;
   ordered_at: string;
-  updated_at: string;
 }
 
 export interface OrderItem {
-  order_item_id: number;
+  id: number;
   order_id: number;
   menu_item_id: number;
   menu_name: string;
   quantity: number;
   unit_price: number;
-  subtotal: number;
 }
 
 export interface TableSession {
-  session_id: number;
+  id: number;
   table_id: number;
   store_id: number;
-  status: 'active' | 'completed';
   started_at: string;
   ended_at: string | null;
 }
 
 export interface TableInfo {
-  table_id: number;
+  id: number;
   store_id: number;
   table_number: number;
   password_hash: string;
+  created_at: string;
 }
 
 export interface OrderHistory {
-  history_id: number;
-  original_order_id: number;
-  order_number: string;
+  id: number;
   store_id: number;
   table_id: number;
   session_id: number;
-  total_amount: number;
-  status: string;
-  ordered_at: string;
+  order_data: string; // JSON string
   completed_at: string;
-  items_json: string;
 }
 
 export interface MenuItem {
-  menu_item_id: number;
+  id: number;
   store_id: number;
   category_id: number;
   name: string;
@@ -102,9 +86,7 @@ export interface MenuItem {
   display_order: number;
 }
 
-// ============================================================
-// Composite / Response Types
-// ============================================================
+// === Composite Types ===
 
 export interface OrderWithItems {
   order: Order;
@@ -135,19 +117,15 @@ export interface OrderHistoryItem {
   items: ParsedOrderItem[];
 }
 
-// ============================================================
-// New Record Types (for INSERT)
-// ============================================================
+// === New Record Types (for INSERT) ===
 
 export interface NewOrder {
-  order_number: string;
   store_id: number;
   table_id: number;
   session_id: number;
   total_amount: number;
   status: OrderStatus;
   ordered_at: string;
-  updated_at: string;
 }
 
 export interface NewOrderItem {
@@ -156,13 +134,11 @@ export interface NewOrderItem {
   menu_name: string;
   quantity: number;
   unit_price: number;
-  subtotal: number;
 }
 
 export interface NewTableSession {
   table_id: number;
   store_id: number;
-  status: 'active';
   started_at: string;
 }
 
@@ -173,14 +149,9 @@ export interface NewTableInfo {
 }
 
 export interface NewOrderHistory {
-  original_order_id: number;
-  order_number: string;
   store_id: number;
   table_id: number;
   session_id: number;
-  total_amount: number;
-  status: string;
-  ordered_at: string;
+  order_data: string; // JSON
   completed_at: string;
-  items_json: string;
 }
