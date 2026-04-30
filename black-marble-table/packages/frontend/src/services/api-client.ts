@@ -41,7 +41,7 @@ async function request<T>(
   }
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+    const errorData = await response.json().catch(() => ({ message: '' }));
     throw new Error(
       (errorData as { message?: string }).message ||
         '요청 처리 중 오류가 발생했습니다.',

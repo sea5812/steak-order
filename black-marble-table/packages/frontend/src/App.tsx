@@ -32,9 +32,9 @@ function LoadingSpinner() {
 }
 
 function CustomerRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useTableAuth();
+  const { isAuthenticated, isLoading, error } = useTableAuth();
   if (isLoading) return <LoadingSpinner />;
-  if (!isAuthenticated) return <Navigate to="/setup" replace />;
+  if (!isAuthenticated || error) return <Navigate to="/setup" replace />;
   return <>{children}</>;
 }
 

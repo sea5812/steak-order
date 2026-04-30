@@ -4,7 +4,7 @@ import { useTableAuth } from '../../hooks/useTableAuth';
 import styles from './TableSetupPage.module.css';
 
 export default function TableSetupPage() {
-  const { setup, isAuthenticated } = useTableAuth();
+  const { setup, isAuthenticated, isLoading: authLoading } = useTableAuth();
   const navigate = useNavigate();
 
   const [storeId, setStoreId] = useState('');
@@ -12,6 +12,8 @@ export default function TableSetupPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  if (authLoading) return null;
 
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
