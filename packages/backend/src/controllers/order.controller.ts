@@ -6,6 +6,8 @@ import { AppError } from '../errors/app-error.js';
 import { validatePositiveInteger, validateEnum, validateDateString } from '../utils/validators.js';
 import { ORDER_STATUSES } from '../types/order.types.js';
 import type { OrderStatus } from '../types/order.types.js';
+import { TableRepository } from '../repositories/table.repository.js';
+import { sqlite } from '../db/index.js';
 
 export class OrderController {
   constructor(private orderService: OrderService) {}
@@ -17,9 +19,13 @@ export class OrderController {
   create = (req: Request, res: Response, next: NextFunction): void => {
     try {
       const storeId = Number(req.params.storeId);
-      // tableId and sessionId come from JWT payload (set by tableAuthMiddleware)
-      const tableId = (req as any).tableId as number;
-      const sessionId = (req as any).sessionId as number;
+      // tableId comes from JWT payload via auth middleware
+      const user = (req as any).user;
+      const tableId = user?.tableId as number;
+
+      if (!tableId) {
+        throw new AppError(401, 'UNAUTHORIZED', '테이블 인증이 필요합니다');
+      }
 
       const { items } = req.body;
 
@@ -37,11 +43,18 @@ export class OrderController {
         }
       }
 
-      if (!sessionId) {
-        throw new AppError(403, 'NO_ACTIVE_SESSION', '활성 세션이 없습니다. 관리자에게 문의하세요');
+      // Auto-create session if not exists
+      const tableRepo = new TableRepository(sqlite);
+      let session = tableRepo.findActiveSession(tableId);
+      if (!session) {
+        session = tableRepo.createSession({
+          table_id: tableId,
+          store_id: storeId,
+          started_at: new Date().toISOString(),
+        });
       }
 
-      const result = this.orderService.createOrder(storeId, tableId, sessionId, items);
+      const result = this.orderService.createOrder(storeId, tableId, session.id, items);
       res.status(201).json(result);
     } catch (error) {
       next(error);
@@ -56,14 +69,17 @@ export class OrderController {
     try {
       const storeId = Number(req.params.storeId);
       const tableId = Number(req.params.tableId);
-      const sessionId = (req as any).sessionId as number;
 
-      if (!sessionId) {
+      // Find active session for this table
+      const tableRepo = new TableRepository(sqlite);
+      const session = tableRepo.findActiveSession(tableId);
+
+      if (!session) {
         res.json([]);
         return;
       }
 
-      const result = this.orderService.getOrdersByTable(storeId, sessionId);
+      const result = this.orderService.getOrdersByTable(storeId, session.id);
       res.json(result);
     } catch (error) {
       next(error);

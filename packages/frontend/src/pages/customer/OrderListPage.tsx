@@ -30,7 +30,7 @@ export default function CustomerOrderListPage() {
   }
 
   async function handleSubmitOrder() {
-    if (!storeId || !tableId || !sessionId || items.length === 0) return;
+    if (!storeId || !tableId || items.length === 0) return;
 
     setShowConfirm(false);
     setIsSubmitting(true);
@@ -38,7 +38,7 @@ export default function CustomerOrderListPage() {
     try {
       const response = await orderApi.createOrder(storeId, {
         tableId,
-        sessionId,
+        sessionId: sessionId || '',
         items: items.map((i) => ({ menuId: i.menuId, quantity: i.quantity })),
       });
       clearAll();

@@ -3,7 +3,11 @@ import type { Order, OrderCreateRequest, OrderCreateResponse, OrderStatusUpdateR
 
 export const orderApi = {
   createOrder(storeId: string, data: OrderCreateRequest): Promise<OrderCreateResponse> {
-    return apiClient.post<OrderCreateResponse>(`/stores/${storeId}/orders`, data, 'table');
+    // Transform frontend format to backend format
+    const backendData = {
+      items: data.items.map((i) => ({ menu_item_id: i.menuId, quantity: i.quantity })),
+    };
+    return apiClient.post<OrderCreateResponse>(`/stores/${storeId}/orders`, backendData, 'table');
   },
 
   getOrdersByTable(storeId: string, tableId: number): Promise<Order[]> {
