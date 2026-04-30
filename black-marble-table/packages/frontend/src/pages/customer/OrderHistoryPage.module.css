@@ -1,0 +1,23 @@
+.page { display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 72px; }
+.header { padding: 20px 16px 12px; border-bottom: 1px solid var(--color-border); }
+.title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 700; color: var(--color-accent); }
+.list { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.orderCard { background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px; }
+.orderHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.orderInfo { display: flex; flex-direction: column; gap: 2px; }
+.orderId { font-size: 0.85rem; color: var(--color-text-muted); }
+.orderTime { font-size: 0.8rem; color: var(--color-text-muted); }
+.orderItems { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.orderItem { display: flex; justify-content: space-between; font-size: 0.9rem; }
+.itemName { color: var(--color-text-primary); }
+.itemDetail { color: var(--color-text-secondary); }
+.orderFooter { display: flex; justify-content: flex-end; padding-top: 12px; border-top: 1px solid var(--color-border); }
+.orderTotal { font-size: 1.05rem; font-weight: 600; color: var(--color-accent); }
+.empty { text-align: center; padding: 60px 16px; color: var(--color-text-muted); font-size: 1rem; }
+.loading { display: flex; justify-content: center; padding: 60px; color: var(--color-accent); }
+.error { text-align: center; padding: 40px 16px; color: var(--color-error); }
+.bottomBar { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: var(--color-bg-secondary); border-top: 1px solid var(--color-border); z-index: 100; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px; gap: 4px; font-size: 0.75rem; color: var(--color-text-muted); text-decoration: none; position: relative; }
+.tabActive { color: var(--color-accent); }
+.tabIcon { font-size: 1.3rem; }
+.badge { position: absolute; top: 6px; right: calc(50% - 20px); background: var(--color-accent); color: #000; font-size: 0.65rem; font-weight: 700; min-width: 18px; height: 18px; border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
