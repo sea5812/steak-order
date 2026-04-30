@@ -7,6 +7,7 @@ import { sqlite } from './db/index.js';
 import { authController } from './controllers/auth.controller.js';
 import { adminController } from './controllers/admin.controller.js';
 import { errorHandler } from './middleware/error-handler.js';
+import { menuController } from './controllers/menu.controller.js';
 import { registerUnit3Routes } from './routes/index.js';
 import { OrderController } from './controllers/order.controller.js';
 import { TableController } from './controllers/table.controller.js';
@@ -37,6 +38,9 @@ runMigrations();
 // Unit 1 Routes
 app.use('/api', authController);
 app.use('/api', adminController);
+
+// Unit 2 Routes (Menu)
+app.use('/api', menuController);
 
 // Unit 3 Routes - Wire up dependencies
 const sseManager = new SSEManager();

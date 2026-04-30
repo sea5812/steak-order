@@ -3,7 +3,8 @@ import type { Category, MenuItem, MenuReorderRequest } from '../types';
 
 export const menuApi = {
   getCategories(storeId: string): Promise<Category[]> {
-    return apiClient.get<Category[]>(`/stores/${storeId}/categories`, 'table');
+    const tokenType = localStorage.getItem('adminToken') ? 'admin' as const : 'table' as const;
+    return apiClient.get<Category[]>(`/stores/${storeId}/categories`, tokenType);
   },
 
   createCategory(storeId: string, data: { name: string }): Promise<Category> {
@@ -19,11 +20,13 @@ export const menuApi = {
   },
 
   getMenus(storeId: string): Promise<MenuItem[]> {
-    return apiClient.get<MenuItem[]>(`/stores/${storeId}/menus`, 'table');
+    const tokenType = localStorage.getItem('adminToken') ? 'admin' as const : 'table' as const;
+    return apiClient.get<MenuItem[]>(`/stores/${storeId}/menus`, tokenType);
   },
 
   getMenu(storeId: string, id: number): Promise<MenuItem> {
-    return apiClient.get<MenuItem>(`/stores/${storeId}/menus/${id}`, 'table');
+    const tokenType = localStorage.getItem('adminToken') ? 'admin' as const : 'table' as const;
+    return apiClient.get<MenuItem>(`/stores/${storeId}/menus/${id}`, tokenType);
   },
 
   createMenu(storeId: string, formData: FormData): Promise<MenuItem> {
