@@ -17,7 +17,7 @@ export class TableRepository {
 
   create(data: NewTableInfo): TableInfo {
     const stmt = this.db.prepare(`
-      INSERT INTO table_info (store_id, table_number, password_hash)
+      INSERT INTO tables (store_id, table_number, password_hash)
       VALUES (@store_id, @table_number, @password_hash)
     `);
     const result = stmt.run(data);
@@ -25,22 +25,22 @@ export class TableRepository {
   }
 
   findById(tableId: number): TableInfo | undefined {
-    const stmt = this.db.prepare(`SELECT * FROM table_info WHERE table_id = ?`);
+    const stmt = this.db.prepare(`SELECT * FROM tables WHERE table_id = ?`);
     return stmt.get(tableId) as TableInfo | undefined;
   }
 
   findByIdAndStore(tableId: number, storeId: number): TableInfo | undefined {
-    const stmt = this.db.prepare(`SELECT * FROM table_info WHERE table_id = ? AND store_id = ?`);
+    const stmt = this.db.prepare(`SELECT * FROM tables WHERE table_id = ? AND store_id = ?`);
     return stmt.get(tableId, storeId) as TableInfo | undefined;
   }
 
   findByStoreId(storeId: number): TableInfo[] {
-    const stmt = this.db.prepare(`SELECT * FROM table_info WHERE store_id = ? ORDER BY table_number ASC`);
+    const stmt = this.db.prepare(`SELECT * FROM tables WHERE store_id = ? ORDER BY table_number ASC`);
     return stmt.all(storeId) as TableInfo[];
   }
 
   findByTableNumber(storeId: number, tableNumber: number): TableInfo | undefined {
-    const stmt = this.db.prepare(`SELECT * FROM table_info WHERE store_id = ? AND table_number = ?`);
+    const stmt = this.db.prepare(`SELECT * FROM tables WHERE store_id = ? AND table_number = ?`);
     return stmt.get(storeId, tableNumber) as TableInfo | undefined;
   }
 
@@ -60,7 +60,7 @@ export class TableRepository {
     if (fields.length === 0) return this.findById(tableId);
 
     values.push(tableId);
-    const stmt = this.db.prepare(`UPDATE table_info SET ${fields.join(', ')} WHERE table_id = ?`);
+    const stmt = this.db.prepare(`UPDATE tables SET ${fields.join(', ')} WHERE table_id = ?`);
     stmt.run(...values);
     return this.findById(tableId);
   }
