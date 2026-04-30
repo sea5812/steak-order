@@ -70,10 +70,10 @@ async function seed() {
   // 5. Create menu items
   const menus = [
     // Appetizers
-    { categoryId: categoryIds['Appetizers'], name: '점보 쉬림프 칵테일', price: 38000, description: '대형 새우를 칵테일 소스와 함께 제공', displayOrder: 1 },
-    { categoryId: categoryIds['Appetizers'], name: '블랙마블 크랩 케이크', price: 42000, description: '점보 럼프 크랩미트로 만든 시그니처 크랩 케이크', displayOrder: 2 },
-    { categoryId: categoryIds['Appetizers'], name: '시즐링 캐나디안 베이컨', price: 19000, description: '두껍게 썬 캐나디안 베이컨을 철판에 구워 제공', displayOrder: 3 },
-    { categoryId: categoryIds['Appetizers'], name: '프레시 오이스터', price: 32000, description: '신선한 생굴 하프 쉘 (6피스)', displayOrder: 4 },
+    { categoryId: categoryIds['Appetizers'], name: '점보 쉬림프 칵테일', price: 38000, description: '대형 새우를 칵테일 소스와 함께 제공. 🍸 클래식 마티니 또는 소비뇽 블랑과 페어링', displayOrder: 1 },
+    { categoryId: categoryIds['Appetizers'], name: '블랙마블 크랩 케이크', price: 42000, description: '점보 럼프 크랩미트로 만든 시그니처 크랩 케이크. 🍷 키안티 클라시코 또는 🍸 네그로니 추천', displayOrder: 2 },
+    { categoryId: categoryIds['Appetizers'], name: '시즐링 캐나디안 베이컨', price: 19000, description: '두껍게 썬 캐나디안 베이컨을 철판에 구워 제공. 🍸 네그로니와 페어링', displayOrder: 3 },
+    { categoryId: categoryIds['Appetizers'], name: '프레시 오이스터', price: 32000, description: '신선한 생굴 하프 쉘 (6피스). 🍷 샤블리 프리미에 크뤼 또는 🍸 클래식 마티니와 최고의 조합', displayOrder: 4 },
     // Soup & Salad
     { categoryId: categoryIds['Soup & Salad'], name: '블랙마블 샐러드', price: 32000, description: '양상추, 토마토, 양파, 크리스피 그린빈, 새우, 베이컨', displayOrder: 1 },
     { categoryId: categoryIds['Soup & Salad'], name: '비프스테이크 토마토 & 어니언', price: 22000, description: '두껍게 썬 비프스테이크 토마토와 양파 (1인)', displayOrder: 2 },
@@ -81,17 +81,17 @@ async function seed() {
     { categoryId: categoryIds['Soup & Salad'], name: '찹드 샐러드', price: 28000, description: '로메인, 시금치, 완두콩, 당근, 옥수수, 오이, 아보카도, 페타치즈', displayOrder: 4 },
     { categoryId: categoryIds['Soup & Salad'], name: '아이스버그 웨지 위드 베이컨', price: 25000, description: '아이스버그 레터스 웨지에 베이컨, 하우스 비네그레트', displayOrder: 5 },
     // Prime Steaks & Chops
-    { categoryId: categoryIds['Prime Steaks & Chops'], name: '포터하우스 (2인 이상)', price: 198000, description: 'USDA 프라임 드라이에이징 포터하우스, 시그니처', displayOrder: 1 },
-    { categoryId: categoryIds['Prime Steaks & Chops'], name: '프라임 NY 설로인 스테이크', price: 89000, description: 'USDA 프라임 뉴욕 스트립 설로인', displayOrder: 2 },
-    { categoryId: categoryIds['Prime Steaks & Chops'], name: '프라임 립아이 스테이크', price: 109000, description: 'USDA 프라임 본인 립아이', displayOrder: 3 },
-    { categoryId: categoryIds['Prime Steaks & Chops'], name: '프라임 필레 미뇽', price: 95000, description: 'USDA 프라임 안심 스테이크', displayOrder: 4 },
-    { categoryId: categoryIds['Prime Steaks & Chops'], name: '콜로라도 립 램 찹', price: 89000, description: '콜로라도산 프라임 램 립 찹', displayOrder: 5 },
-    { categoryId: categoryIds['Prime Steaks & Chops'], name: '토마호크 스테이크', price: 210000, description: '케이준 스타일 토마호크 립아이 (약 1kg)', displayOrder: 6 },
+    { categoryId: categoryIds['Prime Steaks & Chops'], name: '포터하우스 (2인 이상)', price: 198000, description: 'USDA 프라임 드라이에이징 포터하우스, 시그니처. 🍷 나파 밸리 카베르네 소비뇽과 완벽한 페어링', displayOrder: 1 },
+    { categoryId: categoryIds['Prime Steaks & Chops'], name: '프라임 NY 설로인 스테이크', price: 89000, description: 'USDA 프라임 뉴욕 스트립 설로인. 🍷 말벡(멘도사)과 클래식 페어링', displayOrder: 2 },
+    { categoryId: categoryIds['Prime Steaks & Chops'], name: '프라임 립아이 스테이크', price: 109000, description: 'USDA 프라임 본인 립아이. 🍷 나파 밸리 카베르네 소비뇽 또는 샤토네프 뒤 파프 추천', displayOrder: 3 },
+    { categoryId: categoryIds['Prime Steaks & Chops'], name: '프라임 필레 미뇽', price: 95000, description: 'USDA 프라임 안심 스테이크. 🍷 바롤로 DOCG와 우아한 페어링', displayOrder: 4 },
+    { categoryId: categoryIds['Prime Steaks & Chops'], name: '콜로라도 립 램 찹', price: 89000, description: '콜로라도산 프라임 램 립 찹. 🍷 바롤로 또는 키안티 클라시코와 페어링 추천', displayOrder: 5 },
+    { categoryId: categoryIds['Prime Steaks & Chops'], name: '토마호크 스테이크', price: 210000, description: '케이준 스타일 토마호크 립아이 (약 1kg). 🍷 샤토네프 뒤 파프 또는 🥃 블랙마블 올드 패션드와 페어링', displayOrder: 6 },
     // Seafood
-    { categoryId: categoryIds['Seafood'], name: '그릴드 칠리안 씨배스', price: 68000, description: '그릴에 구운 칠레산 씨배스', displayOrder: 1 },
-    { categoryId: categoryIds['Seafood'], name: '그릴드 연어', price: 45000, description: '아스파라거스와 함께 제공되는 그릴드 연어', displayOrder: 2 },
-    { categoryId: categoryIds['Seafood'], name: '쉬림프 스캠피', price: 52000, description: '점보 새우를 마늘 버터 소스에 볶아 라이스와 함께 제공', displayOrder: 3 },
-    { categoryId: categoryIds['Seafood'], name: '시어드 옐로핀 참치', price: 58000, description: '와사비 소스와 아스파라거스를 곁들인 참치 스테이크', displayOrder: 4 },
+    { categoryId: categoryIds['Seafood'], name: '그릴드 칠리안 씨배스', price: 68000, description: '그릴에 구운 칠레산 씨배스. 🍷 샤블리 프리미에 크뤼와 최고의 페어링', displayOrder: 1 },
+    { categoryId: categoryIds['Seafood'], name: '그릴드 연어', price: 45000, description: '아스파라거스와 함께 제공되는 그릴드 연어. 🍷 피노 누아 또는 나파 밸리 샤르도네 추천', displayOrder: 2 },
+    { categoryId: categoryIds['Seafood'], name: '쉬림프 스캠피', price: 52000, description: '점보 새우를 마늘 버터 소스에 볶아 라이스와 함께 제공. 🍷 리슬링(알자스)과 아름다운 조합', displayOrder: 3 },
+    { categoryId: categoryIds['Seafood'], name: '시어드 옐로핀 참치', price: 58000, description: '와사비 소스와 아스파라거스를 곁들인 참치 스테이크. 🍷 피노 누아 또는 프로방스 로제 추천', displayOrder: 4 },
     // Sides
     { categoryId: categoryIds['Sides'], name: '점보 베이크드 포테이토', price: 15000, description: '대형 베이크드 감자, 사워크림 & 버터', displayOrder: 1 },
     { categoryId: categoryIds['Sides'], name: '크리미 시금치', price: 16000, description: '크림 소스에 볶은 시금치', displayOrder: 2 },
