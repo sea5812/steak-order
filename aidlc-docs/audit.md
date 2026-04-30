@@ -211,3 +211,183 @@ Risk Level: Medium
 **Context**: Application Design approved, proceeding to Units Generation + team assignment + Git push
 
 ---
+
+## Session Resumption - Unit 3: Order Domain
+**Timestamp**: 2026-04-30T10:00:00Z
+**User Input**: "feature/unit3-order 브랜치로 바꿔서 작업을 계속하려고 해"
+**AI Response**: feature/unit3-order 브랜치로 전환 완료. 기존 INCEPTION 산출물 로드 완료.
+**Context**: Session resumed on feature/unit3-order branch. INCEPTION phase complete. Starting CONSTRUCTION phase for Unit 3: Order Domain.
+
+---
+
+## Session Continuity - Context Loaded
+**Timestamp**: 2026-04-30T10:00:01Z
+**AI Response**: 세션 재개를 위해 다음 산출물 로드 완료:
+- aidlc-state.md (프로젝트 상태)
+- requirements.md (요구사항)
+- stories.md (사용자 스토리)
+- components.md, component-methods.md, services.md (Application Design)
+- unit-of-work.md, unit-of-work-dependency.md, unit-of-work-story-map.md (Units)
+- component-dependency.md, team-assignment.md (팀 배정)
+- execution-plan.md (실행 계획)
+Unit 3 담당: 팀원 C (Order & Realtime Lead)
+Unit 3 범위: 주문 생성/조회/상태변경/삭제, 테이블 관리, SSE 실시간 통신, 이용 완료
+Unit 3 관련 스토리: US-C04, US-C05, US-A03, US-A04
+**Context**: All relevant artifacts loaded for Unit 3 CONSTRUCTION phase
+
+---
+
+## CONSTRUCTION - Functional Design Start (Unit 3: Order Domain)
+**Timestamp**: 2026-04-30T10:01:00Z
+**User Input**: "응응, 내 역할을 수행해줘"
+**AI Response**: Unit 3: Order Domain의 Functional Design 단계 시작. Plan 생성 및 질문 파일 작성 진행.
+**Context**: Starting Functional Design for Unit 3 - Order Domain (팀원 C 역할)
+
+---
+
+## CONSTRUCTION - Functional Design (Unit 3) - Answers Received
+**Timestamp**: 2026-04-30T10:10:00Z
+**User Input**: "지금 질문에 답을 붙였어"
+**AI Response**: 10개 질문 답변 확인 완료. 모호성 없음.
+- Q1: B (서버 가격 검증 후 서버 가격 저장)
+- Q2: B (순방향+역방향 자유 변경)
+- Q3: B (태블릿 로그인 시 세션 시작)
+- Q4: A (OrderHistory 복사 후 원본 삭제)
+- Q5: A (EventSource 기본 재연결)
+- Q6: A (물리적 삭제)
+- Q7: B (오늘 날짜 모든 주문)
+- Q8: A (전체 데이터 전송)
+- Q9: C (90일 보존)
+- Q10: B (날짜 기반 순번)
+**Context**: Functional Design questions answered, no ambiguities, proceeding to artifact generation
+
+---
+
+## CONSTRUCTION - Functional Design (Unit 3) - Artifacts Generated
+**Timestamp**: 2026-04-30T10:15:00Z
+**AI Response**: Functional Design 산출물 3개 생성 완료:
+1. domain-entities.md: Order, OrderItem, TableSession, OrderHistory 엔티티 정의, 관계도, 주문번호 생성 규칙
+2. business-logic-model.md: 주문 생성/상태변경/삭제/조회, 테이블 세션 관리, SSE 실시간 통신 흐름
+3. business-rules.md: 9개 카테고리 비즈니스 규칙 (BR-O01~O07, BR-S01~S05, BR-D01~D05, BR-T01~T04, BR-C01~C05, BR-SSE01~SSE06, BR-H01~H03, BR-AD01~AD03, 입력 검증 규칙)
+승인 대기 중.
+**Context**: Functional Design artifacts generated for Unit 3, awaiting user approval
+
+---
+
+## CONSTRUCTION - Functional Design (Unit 3) - Approved
+**Timestamp**: 2026-04-30T10:20:00Z
+**User Input**: "승인할게"
+**AI Response**: Functional Design 승인 확인. NFR Requirements 단계로 진행.
+**Context**: Functional Design approved for Unit 3, proceeding to NFR Requirements
+
+---
+
+## CONSTRUCTION - NFR Requirements (Unit 3) - Answers Received
+**Timestamp**: 2026-04-30T10:25:00Z
+**User Input**: "답했어" → Q1 미답변 확인 → "했어" (Q1 답변 완료)
+**AI Response**: 8개 질문 답변 확인 완료. 모호성 없음.
+- Q1: A (단순 인메모리 Map 관리)
+- Q2: B (1초 이내 응답)
+- Q3: B (서버 자동 재시도 최대 2회)
+- Q4: A (최소 로깅, 에러만)
+- Q5: A (SQLite 단일 트랜잭션)
+- Q6: A (Vitest)
+- Q7: A (heartbeat 실패 시 즉시 연결 제거)
+- Q8: A (조회 시 WHERE 필터링만)
+**Context**: NFR Requirements questions answered, proceeding to artifact generation
+
+---
+
+## CONSTRUCTION - NFR Requirements (Unit 3) - Artifacts Generated
+**Timestamp**: 2026-04-30T10:30:00Z
+**AI Response**: NFR Requirements 산출물 2개 생성 완료:
+1. nfr-requirements.md: 6개 카테고리 21개 NFR (성능 5, 가용성 2, 확장성 3, 신뢰성 4, 유지보수 4, 데이터 무결성 3)
+2. tech-stack-decisions.md: 10개 영역 기술 결정 (SSE 인메모리 Map, Vitest, SQLite 트랜잭션+재시도 2회, 최소 로깅, 90일 WHERE 필터링)
+승인 대기 중.
+**Context**: NFR Requirements artifacts generated for Unit 3, awaiting user approval
+
+---
+
+## CONSTRUCTION - NFR Requirements (Unit 3) - Approved
+**Timestamp**: 2026-04-30T10:35:00Z
+**User Input**: "응응 apporve 했어"
+**AI Response**: NFR Requirements 승인 확인. NFR Design 단계로 진행.
+**Context**: NFR Requirements approved for Unit 3, proceeding to NFR Design
+
+---
+
+## CONSTRUCTION - NFR Design (Unit 3) - Answers Received
+**Timestamp**: 2026-04-30T10:40:00Z
+**User Input**: "답했어"
+**AI Response**: 3개 질문 답변 확인 완료. 모호성 없음.
+- Q1: A (생성자 주입)
+- Q2: A (수동 검증, if/throw 패턴)
+- Q3: A (전역 단일 setInterval heartbeat)
+**Context**: NFR Design questions answered, proceeding to artifact generation
+
+---
+
+## CONSTRUCTION - NFR Design (Unit 3) - Artifacts Generated
+**Timestamp**: 2026-04-30T10:45:00Z
+**AI Response**: NFR Design 산출물 2개 생성 완료:
+1. nfr-design-patterns.md: 6개 설계 패턴 (생성자 주입, 트랜잭션 재시도, AppError+글로벌 핸들러, 수동 검증, SSE 전역 heartbeat, Repository 패턴)
+2. logical-components.md: 11개 섹션 (SSEManager, SSEService, OrderService, TableService, OrderRepository, TableRepository, Controllers 3개, 유틸리티 3개, 타입 정의, 의존성 다이어그램, 파일 구조)
+승인 대기 중.
+**Context**: NFR Design artifacts generated for Unit 3, awaiting user approval
+
+---
+
+## CONSTRUCTION - NFR Design (Unit 3) - Approved
+**Timestamp**: 2026-04-30T10:50:00Z
+**User Input**: "계속해줘"
+**AI Response**: NFR Design 승인 확인. Code Generation 단계로 진행.
+**Context**: NFR Design approved for Unit 3, proceeding to Code Generation
+
+---
+
+## CONSTRUCTION - Code Generation (Unit 3) - Plan Created
+**Timestamp**: 2026-04-30T10:55:00Z
+**AI Response**: Code Generation Plan 생성 완료. 12 Steps, 30개 파일 (소스 18 + 테스트 11 + 문서 1).
+Step 1: 유틸리티/타입, Step 2: SSE, Step 3: Repository, Step 4: Service, Step 5: Controller, Step 6: 라우트 통합, Step 7-11: 단위 테스트, Step 12: 문서화.
+승인 대기 중.
+**Context**: Code Generation Part 1 (Planning) complete, awaiting user approval
+
+---
+
+## CONSTRUCTION - Code Generation (Unit 3) - Plan Approved
+**Timestamp**: 2026-04-30T11:00:00Z
+**User Input**: "승인"
+**AI Response**: Code Generation Plan 승인 확인. Part 2 (Generation) 시작.
+**Context**: Code Generation Plan approved, starting Part 2 - Generation
+
+---
+
+## CONSTRUCTION - Code Generation (Unit 3) - Complete
+**Timestamp**: 2026-04-30T11:30:00Z
+**AI Response**: Code Generation 완료. 30개 파일 생성 (소스 18 + 테스트 11 + 문서 1).
+12개 API 엔드포인트, 4개 스토리 (US-C04, US-C05, US-A03, US-A04) 모두 구현.
+승인 대기 중.
+**Context**: Code Generation Part 2 complete for Unit 3, awaiting user approval
+
+---
+
+## CONSTRUCTION - Code Generation (Unit 3) - Approved
+**Timestamp**: 2026-04-30T11:35:00Z
+**User Input**: "그렇게 해보자"
+**AI Response**: Code Generation 승인 확인. Build & Test 단계로 진행.
+**Context**: Code Generation approved for Unit 3, proceeding to Build & Test
+
+---
+
+## CONSTRUCTION - Build and Test - Complete
+**Timestamp**: 2026-04-30T11:40:00Z
+**AI Response**: Build and Test 문서 5개 생성 완료:
+1. build-instructions.md — 빌드 환경 설정 및 컴파일 가이드
+2. unit-test-instructions.md — Vitest 단위 테스트 실행 가이드
+3. integration-test-instructions.md — 4개 통합 테스트 시나리오 + curl 가이드
+4. performance-test-instructions.md — 성능 테스트 가이드
+5. build-and-test-summary.md — 전체 요약
+Unit 3 CONSTRUCTION phase 완료.
+**Context**: Build and Test complete for Unit 3. All CONSTRUCTION stages finished.
+
+---

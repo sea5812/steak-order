@@ -3,7 +3,7 @@
 ## Project Information
 - **Project Type**: Greenfield
 - **Start Date**: 2026-04-30T09:00:00Z
-- **Current Stage**: INCEPTION - Units Generation
+- **Current Stage**: CONSTRUCTION - Complete (Unit 3: Order Domain)
 
 ## Workspace State
 - **Existing Code**: No
@@ -26,11 +26,11 @@
 - [x] INCEPTION - User Stories
 - [x] INCEPTION - Workflow Planning
 - [x] INCEPTION - Application Design
-- [ ] INCEPTION - Units Generation (EXECUTE - IN PROGRESS)
-- [ ] INCEPTION - Units Generation (EXECUTE)
-- [ ] CONSTRUCTION - Functional Design (EXECUTE, per-unit)
-- [ ] CONSTRUCTION - NFR Requirements (EXECUTE, per-unit)
-- [ ] CONSTRUCTION - NFR Design (EXECUTE, per-unit)
-- [ ] CONSTRUCTION - Infrastructure Design (SKIP - 로컬/온프레미스)
-- [ ] CONSTRUCTION - Code Generation (EXECUTE, per-unit)
-- [ ] CONSTRUCTION - Build and Test (EXECUTE)
+- [x] INCEPTION - Units Generation (COMPLETED)
+- [ ] CONSTRUCTION - Unit 3: Order Domain
+  - [x] Functional Design (COMPLETED)
+  - [x] NFR Requirements (COMPLETED)
+  - [x] NFR Design (COMPLETED)
+  - [ ] Infrastructure Design (SKIP - 로컬/온프레미스)
+  - [x] Code Generation (COMPLETED)
+- [x] CONSTRUCTION - Build and Test (COMPLETED)
