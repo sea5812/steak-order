@@ -8,6 +8,7 @@ import { authController } from './controllers/auth.controller.js';
 import { adminController } from './controllers/admin.controller.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { menuController } from './controllers/menu.controller.js';
+import { salesController } from './controllers/sales.controller.js';
 import { registerUnit3Routes } from './routes/index.js';
 import { OrderController } from './controllers/order.controller.js';
 import { TableController } from './controllers/table.controller.js';
@@ -41,6 +42,9 @@ app.use('/api', adminController);
 
 // Unit 2 Routes (Menu)
 app.use('/api', menuController);
+
+// Sales Routes
+app.use('/api', salesController);
 
 // Unit 3 Routes - Wire up dependencies
 const sseManager = new SSEManager();

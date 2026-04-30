@@ -12,6 +12,7 @@ const AdminDashboardPage = lazy(() => import('./pages/admin/DashboardPage'));
 const AdminMenuManagePage = lazy(() => import('./pages/admin/MenuManagePage'));
 const AdminTableManagePage = lazy(() => import('./pages/admin/TableManagePage'));
 const AdminAccountPage = lazy(() => import('./pages/admin/AccountPage'));
+const AdminSalesPage = lazy(() => import('./pages/admin/SalesPage'));
 
 function LoadingSpinner() {
   return (
@@ -117,6 +118,7 @@ export default function App() {
           <Route path="/admin/menus" element={<AdminRoute><AdminMenuManagePage /></AdminRoute>} />
           <Route path="/admin/tables" element={<AdminRoute><AdminTableManagePage /></AdminRoute>} />
           <Route path="/admin/accounts" element={<AdminRoute><AdminAccountPage /></AdminRoute>} />
+          <Route path="/admin/sales" element={<AdminRoute><AdminSalesPage /></AdminRoute>} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />

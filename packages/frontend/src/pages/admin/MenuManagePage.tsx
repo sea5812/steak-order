@@ -123,6 +123,7 @@ export default function AdminMenuManagePage() {
         <Link to="/admin/dashboard" className={dashStyles.navLink}>대시보드</Link>
         <Link to="/admin/menus" className={`${dashStyles.navLink} ${location.pathname === '/admin/menus' ? dashStyles.navActive : ''}`}>메뉴 관리</Link>
         <Link to="/admin/tables" className={dashStyles.navLink}>테이블 관리</Link>
+        <Link to="/admin/sales" className={dashStyles.navLink}>매출</Link>
         <div className={dashStyles.navSpacer} />
         <div className={dashStyles.navDropdown}>
           <button className={dashStyles.navDropdownBtn} onClick={() => setShowDropdown(!showDropdown)}>▼ 더보기</button>

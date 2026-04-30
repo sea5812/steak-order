@@ -135,6 +135,7 @@ export default function AdminDashboardPage() {
         <Link to="/admin/dashboard" className={`${styles.navLink} ${location.pathname === '/admin/dashboard' ? styles.navActive : ''}`}>대시보드</Link>
         <Link to="/admin/menus" className={`${styles.navLink} ${location.pathname === '/admin/menus' ? styles.navActive : ''}`}>메뉴 관리</Link>
         <Link to="/admin/tables" className={`${styles.navLink} ${location.pathname === '/admin/tables' ? styles.navActive : ''}`}>테이블 관리</Link>
+        <Link to="/admin/sales" className={`${styles.navLink} ${location.pathname === '/admin/sales' ? styles.navActive : ''}`}>매출</Link>
         <div className={styles.navSpacer} />
         <span className={`${styles.sseStatus} ${isConnected ? styles.sseConnected : styles.sseDisconnected}`}>
           {isConnected ? '● 연결됨' : '○ 연결 끊김'}
